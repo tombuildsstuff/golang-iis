@@ -1,0 +1,8 @@
+golang-iis
+golang-iis*
+.DS_Store
+.idea/
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.tfstate.lock.info
