@@ -41,6 +41,10 @@ func TestApplicationPoolLifecycle(t *testing.T) {
 		t.Fatalf("Expected the App Pool %q to be OnDemand but it wasn't", name)
 	}
 
+	if pool.State != StateStarted {
+		t.Fatalf("Expected the App Pool %q State to be Started but it wasn't", name)
+	}
+
 	err = client.SetStartMode(name, false, StartModeAlwaysRunning)
 	if err != nil {
 		t.Fatalf("Error setting StartMode for Application Pool %q: %+v", name, err)
@@ -64,9 +68,27 @@ func TestApplicationPoolLifecycle(t *testing.T) {
 		t.Fatalf("Error stopping Application Pool %q: %+v", name, err)
 	}
 
+	pool, err = client.Get(name)
+	if err != nil {
+		t.Fatalf("Error retrieving Application Pool %q: %+v", name, err)
+	}
+
+	if pool.State != StateStopped {
+		t.Fatalf("Expected the App Pool %q State to be Stopped but it wasn't", name)
+	}
+
 	err = client.Start(name)
 	if err != nil {
 		t.Fatalf("Error starting Application Pool %q: %+v", name, err)
+	}
+
+	pool, err = client.Get(name)
+	if err != nil {
+		t.Fatalf("Error retrieving Application Pool %q: %+v", name, err)
+	}
+
+	if pool.State != StateStarted {
+		t.Fatalf("Expected the App Pool %q State to be Started but it wasn't", name)
 	}
 
 	err = client.Delete(name)

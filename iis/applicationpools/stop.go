@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// Stop will start an Application Pool within IIS.
+// Stop will stop an Application Pool within IIS.
 func (c *AppPoolsClient) Stop(name string) error {
 	commands := fmt.Sprintf(`
 Import-Module WebAdministration
