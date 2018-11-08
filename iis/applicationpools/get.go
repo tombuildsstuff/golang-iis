@@ -10,6 +10,8 @@ type getAppPool struct {
 	ManagedPipelineMode   string              `json:"managedPipelineMode"`
 	ManagedRuntimeVersion string              `json:"managedRuntimeVersion"`
 	Cpu                   getAppPoolCpuLimits `json:"cpu"`
+	AutoStart             bool                `json:"autoStart"`
+	StartMode             string              `json:"startMode"`
 }
 
 type getAppPoolCpuLimits struct {
@@ -41,6 +43,8 @@ Get-ItemProperty -Path "IIS:\AppPools\%s" | Select-Object | ConvertTo-Json
 		Name:              appPool.Name,
 		FrameworkVersion:  ManagedFrameworkVersion(appPool.ManagedRuntimeVersion),
 		MaxCPUPerInterval: appPool.Cpu.Limit,
+		AutoStart:         appPool.AutoStart,
+		StartMode:         StartMode(appPool.StartMode),
 	}
 	return &pool, nil
 }
