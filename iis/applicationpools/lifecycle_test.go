@@ -28,6 +28,16 @@ func TestApplicationPoolLifecycle(t *testing.T) {
 		return
 	}
 
+	err = client.Stop(name)
+	if err != nil {
+		t.Fatalf("Error stopping Application Pool %q: %+v", name, err)
+	}
+
+	err = client.Start(name)
+	if err != nil {
+		t.Fatalf("Error starting Application Pool %q: %+v", name, err)
+	}
+
 	err = client.Delete(name)
 	if err != nil {
 		t.Fatalf("Error deleting App Pool %q: %+v", name, err)
