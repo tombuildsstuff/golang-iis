@@ -27,6 +27,12 @@ func TestWebsiteLifecycle(t *testing.T) {
 		return
 	}
 
+	err = appPoolsClient.SetStartMode(appPoolName, false, applicationpools.StartModeAlwaysRunning)
+	if err != nil {
+		t.Fatalf("Error setting Start Mode for App Pool %q: %+v", appPoolName, err)
+		return
+	}
+
 	err = websitesClient.Create(websiteName, appPoolName, defaultWebsitePath)
 	if err != nil {
 		t.Fatalf("Error creating Website %q in App Pool %q: %+v", websiteName, appPoolName, err)
@@ -55,9 +61,38 @@ func TestWebsiteLifecycle(t *testing.T) {
 	}
 
 	if site.StartsOnBoot != false {
-		t.Fatalf("Expedted StartOnBoot to be false but it wasn't!")
+		t.Fatalf("Expected StartOnBoot to be false but it wasn't!")
 		return
 	}
 
+	err = appPoolsClient.Start(appPoolName)
+	if err != nil {
+		t.Fatalf("Error starting app pool %q: %+v", websiteName, err)
+	}
+
+	err = websitesClient.Start(websiteName)
+	if err != nil {
+		t.Fatalf("Error starting website %q: %+v", websiteName, err)
+	}
+
+	// we have to test this here since there's no worker processes without a website
+	processIds, err := appPoolsClient.GetWorkerProcessID(appPoolName)
+	if err != nil {
+		t.Fatalf("Error retrieving Worker Process ID: %+v", err)
+	}
+	if len(*processIds) == 0 {
+		t.Fatalf("Expected some Worker Process ID's but didn't get any")
+	}
+
 	// TODO: alter the websites state and confirm it
+
+	err = websitesClient.Delete(websiteName)
+	if err != nil {
+		t.Fatalf("Error deleting Website %q: %+v", websiteName, err)
+	}
+
+	err = appPoolsClient.Delete(appPoolName)
+	if err != nil {
+		t.Fatalf("Error deleting App Pool %q: %+v", appPoolName, err)
+	}
 }

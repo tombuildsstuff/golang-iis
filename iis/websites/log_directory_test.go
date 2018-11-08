@@ -28,15 +28,11 @@ func TestLogDirectory(t *testing.T) {
 		return
 	}
 
-	defer appPoolsClient.Delete(appPoolName)
-
 	err = websitesClient.Create(websiteName, appPoolName, defaultWebsitePath)
 	if err != nil {
 		t.Fatalf("Error creating Website %q in App Pool %q: %+v", websiteName, appPoolName, err)
 		return
 	}
-
-	defer websitesClient.Delete(websiteName)
 
 	exists, err := websitesClient.Exists(websiteName)
 	if err != nil {
@@ -76,4 +72,7 @@ func TestLogDirectory(t *testing.T) {
 		t.Fatalf("Expected the updated Log Directory to be %q but was %q", updatedPath, *path)
 		return
 	}
+
+	websitesClient.Delete(websiteName)
+	appPoolsClient.Delete(appPoolName)
 }
