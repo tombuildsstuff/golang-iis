@@ -27,15 +27,11 @@ func TestWebsiteExists(t *testing.T) {
 		return
 	}
 
-	defer appPoolsClient.Delete(applicationPoolName)
-
 	err = websiteClient.Create(websiteName, applicationPoolName, defaultWebsitePath)
 	if err != nil {
 		t.Fatalf("Error creating Website %q in App Pool %q: %+v", websiteName, applicationPoolName, err)
 		return
 	}
-
-	defer websiteClient.Delete(websiteName)
 
 	exists, err := websiteClient.Exists(websiteName)
 	if err != nil {
@@ -47,6 +43,9 @@ func TestWebsiteExists(t *testing.T) {
 		t.Fatalf("Expected the Website %q to exist, but it didn't..", websiteName)
 		return
 	}
+
+	websiteClient.Delete(websiteName)
+	appPoolsClient.Delete(applicationPoolName)
 }
 
 func TestWebsiteDoesNotExist(t *testing.T) {

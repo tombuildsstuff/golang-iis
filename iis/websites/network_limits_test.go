@@ -27,15 +27,11 @@ func TestNetworkLimits(t *testing.T) {
 		return
 	}
 
-	defer appPoolsClient.Delete(appPoolName)
-
 	err = websitesClient.Create(websiteName, appPoolName, defaultWebsitePath)
 	if err != nil {
 		t.Fatalf("Error creating Website %q in App Pool %q: %+v", websiteName, appPoolName, err)
 		return
 	}
-
-	defer websitesClient.Delete(websiteName)
 
 	site, err := websitesClient.Get(websiteName)
 	if err != nil {
@@ -81,4 +77,7 @@ func TestNetworkLimits(t *testing.T) {
 		t.Fatalf("Expected the default Max Bandwidth to be %d but got %d", defaultNetworkLimit, site.MaxBandwidthPerSecondInBytes)
 		return
 	}
+
+	websitesClient.Delete(websiteName)
+	appPoolsClient.Delete(appPoolName)
 }

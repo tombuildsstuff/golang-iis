@@ -28,15 +28,11 @@ func TestAuthenticationMethod(t *testing.T) {
 		return
 	}
 
-	defer appPoolsClient.Delete(appPoolName)
-
 	err = websitesClient.Create(websiteName, appPoolName, defaultWebsitePath)
 	if err != nil {
 		t.Fatalf("Error creating Website %q in App Pool %q: %+v", websiteName, appPoolName, err)
 		return
 	}
-
-	defer websitesClient.Delete(websiteName)
 
 	// TODO: switch over to Exists when it exists
 	_, err = websitesClient.Get(websiteName)
@@ -72,4 +68,7 @@ func TestAuthenticationMethod(t *testing.T) {
 			return
 		}
 	}
+
+	websitesClient.Delete(websiteName)
+	appPoolsClient.Delete(appPoolName)
 }
