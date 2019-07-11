@@ -11,11 +11,11 @@ New-WebApplication -Name %q -Site %q -PhysicalPath $path -ApplicationPool %q
 
 	_, stderr, err := c.Run(commands)
 	if err != nil {
-		return fmt.Errorf("Error creating Website: %+v", err)
+		return fmt.Errorf("Error creating Application: %+v", err)
 	}
 
 	if stderr != nil && *stderr != "" {
-		return fmt.Errorf("Error creating Website %q: %+v", name, err)
+		return fmt.Errorf("Error creating Application %q: %+v", name, err)
 	}
 
 	return nil
