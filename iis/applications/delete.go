@@ -2,6 +2,7 @@ package applications
 
 import "fmt"
 
+// Delete the given Application under the given Website
 func (c *ApplicationsClient) Delete(name string, parentWebsite string) error {
 	commands := fmt.Sprintf(`
 Import-Module WebAdministration

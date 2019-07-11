@@ -2,6 +2,7 @@ package applications
 
 import "fmt"
 
+// Create an IIS Application under the given Website
 func (c *ApplicationsClient) Create(name string, applicationPool string, physicalPath string, parentWebsite string) error {
 	commands := fmt.Sprintf(`
 Import-Module WebAdministration

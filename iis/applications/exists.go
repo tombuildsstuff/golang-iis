@@ -2,6 +2,7 @@ package applications
 
 import "fmt"
 
+// Checks to see if the given Application exists under the given Website
 func (c *ApplicationsClient) Exists(name string, parentWebsite string) (*bool, error) {
 	// returns anything if the application exists, nothing if it doesn't
 	command := fmt.Sprintf(`

@@ -5,12 +5,14 @@ import (
 	"fmt"
 )
 
+// PowerShell response shape
 type getWebApplicationResponse struct {
 	Path            string `json:"path"`
 	ApplicationPool string `json:"applicationPool"`
 	PhysicalPath    string `json:"physicalPath"`
 }
 
+// Get configuration data for an IIS Application
 func (c *ApplicationsClient) Get(name string, parentWebsite string) (*Application, error) {
 	commands := fmt.Sprintf(`
 Import-Module WebAdministration
