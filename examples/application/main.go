@@ -50,7 +50,7 @@ func main() {
 	log.Printf("Trying to get the test HTML from IIS %s", testUrl)
 	testApplication(testUrl, testAppContent)
 
-	log.Printf("Cleaing up...")
+	log.Printf("Cleaning up...")
 
 	cleanup(client, applicationName, websiteName, appPoolName, testAppPath)
 
