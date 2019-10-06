@@ -5,13 +5,15 @@ import (
 	"strings"
 
 	"github.com/tombuildsstuff/golang-iis/iis/applicationpools"
+	"github.com/tombuildsstuff/golang-iis/iis/applications"
 	"github.com/tombuildsstuff/golang-iis/iis/cmd"
 	"github.com/tombuildsstuff/golang-iis/iis/websites"
 )
 
 type Client struct {
-	AppPools applicationpools.AppPoolsClient
-	Websites websites.WebsitesClient
+	AppPools     applicationpools.AppPoolsClient
+	Websites     websites.WebsitesClient
+	Applications applications.ApplicationsClient
 
 	client cmd.Client
 }
@@ -42,6 +44,9 @@ func NewClient() (*Client, error) {
 			Client: c,
 		},
 		Websites: websites.WebsitesClient{
+			Client: c,
+		},
+		Applications: applications.ApplicationsClient{
 			Client: c,
 		},
 	}
