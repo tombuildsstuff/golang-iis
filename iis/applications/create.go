@@ -3,7 +3,7 @@ package applications
 import "fmt"
 
 // Create an IIS Application under the given Website
-func (c *ApplicationsClient) Create(name string, applicationPool string, physicalPath string, parentWebsite string) error {
+func (c *ApplicationsClient) Create(name string, parentWebsite string, applicationPool string, physicalPath string) error {
 	commands := fmt.Sprintf(`
 Import-Module WebAdministration
 $path = [IO.Path]::GetFullPath(%q)
